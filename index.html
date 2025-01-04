@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Android Device Ultimate Search Index</title>
+  <!-- Add the site favicon -->
+  <link rel="icon" type="image/x-icon" href="droid.ico">
   <style>
+<<<<<<< Updated upstream
     /* Full-viewport wrapper to fix background cropping */
     #wrapper {
       min-height: 100vh; /* Ensures the background spans the entire viewport height */
@@ -22,6 +25,33 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+=======
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /* Prevent scrolling */
+    }
+    #wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('android.gif');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    body {
+      font-family: Arial, sans-serif;
+>>>>>>> Stashed changes
       color: white;
     }
     h1 {
@@ -166,7 +196,12 @@
       }
 
       const filtered = data.filter(item => 
+<<<<<<< Updated upstream
         item.title.toLowerCase().includes(query) && 
+=======
+        (item.title.toLowerCase().includes(query) || 
+         item.content.toLowerCase().includes(query)) && // Check both title and content
+>>>>>>> Stashed changes
         item.title.trim() !== '' && 
         item.content.trim() !== '' // Skip empty content
       );
