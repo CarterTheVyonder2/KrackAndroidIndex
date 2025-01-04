@@ -54,6 +54,9 @@
       background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background for results */
       padding: 20px;
       border-radius: 10px;
+      color: white;
+      text-align: center;
+      min-height: 50px; /* Ensure results box is always visible */
     }
     .result {
       margin: 5px 0;
@@ -65,13 +68,17 @@
     .result strong {
       display: block;
     }
+    #noResultsMessage {
+      display: none; /* Hidden by default */
+      color: white;
+      margin-top: 10px;
+      font-size: 18px;
+    }
     /* Loading Animation */
     #noResults {
-      margin: 20px auto;
-      display: flex;
+      display: flex; /* Always show dots when no query */
       justify-content: center;
       align-items: center;
-      visibility: hidden;
     }
     .dot {
       width: 10px;
@@ -103,12 +110,14 @@
     <input type="text" id="searchBar" placeholder="Search..." />
     <button id="searchButton">🔍</button>
   </div>
-  <div id="noResults">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
+  <div id="results">
+    <div id="noResultsMessage" style="display: none;">Nothing found!</div>
+    <div id="noResults">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
   </div>
-  <div id="results"></div>
   
   <script src="data.js"></script>
   <script>
@@ -116,22 +125,44 @@
     const searchButton = document.getElementById('searchButton');
     const results = document.getElementById('results');
     const noResults = document.getElementById('noResults');
+    const noResultsMessage = document.getElementById('noResultsMessage');
     const data = window.krackData;
+
+    const showDots = () => {
+      noResults.style.display = 'flex'; // Show the dots
+      noResultsMessage.style.display = 'none'; // Hide the "Nothing found!" message
+    };
+
+    const showNothingFound = () => {
+      noResults.style.display = 'none'; // Hide the dots
+      noResultsMessage.style.display = 'block'; // Show the "Nothing found!" message
+    };
+
+    const clearResults = () => {
+      results.innerHTML = ''; // Clear old results
+      results.appendChild(noResults); // Re-add dots
+      results.appendChild(noResultsMessage); // Re-add "Nothing found!"
+    };
 
     searchButton.addEventListener('click', () => {
       const query = searchBar.value.trim().toLowerCase();
-      results.innerHTML = ''; // Clear old results
-      noResults.style.visibility = 'hidden'; // Hide the dots by default
+      clearResults(); // Reset the results box
 
-      if (query === '') return; // If the query is empty, do nothing
+      if (query === '') {
+        showDots(); // Show bouncing dots when search box is empty
+        return;
+      }
 
       const filtered = data.filter(item => 
         item.title.toLowerCase().includes(query) && item.title.trim() !== ''
       );
 
       if (filtered.length === 0) {
-        noResults.style.visibility = 'visible'; // Show the dots if no results
+        showNothingFound(); // Show "Nothing found!" message
       } else {
+        noResults.style.display = 'none'; // Hide the dots
+        noResultsMessage.style.display = 'none'; // Hide the "Nothing found!" message
+
         filtered.forEach(item => {
           const div = document.createElement('div');
           div.className = 'result';
@@ -139,13 +170,15 @@
           results.appendChild(div);
         });
 
-        // Show results after search
         const resultElements = document.querySelectorAll('.result');
         resultElements.forEach(result => {
           result.style.display = 'block'; // Reveal results
         });
       }
     });
+
+    // Show dots on page load (initial state)
+    showDots();
   </script>
 </body>
 </html>
