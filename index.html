@@ -46,11 +46,7 @@
       border-radius: 0 5px 5px 0;
       padding: 10px;
       cursor: pointer;
-    }
-    #searchButton img {
-      width: 20px;
-      height: 20px;
-      filter: invert(1); /* Make the magnifying glass icon white */
+      font-size: 16px;
     }
     #results {
       margin: 20px auto;
@@ -70,11 +66,12 @@
       display: block;
     }
     /* Loading Animation */
-    #loading {
+    #noResults {
       margin: 20px auto;
       display: flex;
       justify-content: center;
       align-items: center;
+      visibility: hidden;
     }
     .dot {
       width: 10px;
@@ -102,16 +99,14 @@
 </head>
 <body>
   <h1>Android Device Ultimate Search Index</h1>
-  <div id="loading">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
-  <div id="searchContainer" style="display: none;">
+  <div id="searchContainer">
     <input type="text" id="searchBar" placeholder="Search..." />
-    <button id="searchButton">
-      <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search" />
-    </button>
+    <button id="searchButton">🔍</button>
+  </div>
+  <div id="noResults">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
   </div>
   <div id="results"></div>
   
@@ -120,37 +115,36 @@
     const searchBar = document.getElementById('searchBar');
     const searchButton = document.getElementById('searchButton');
     const results = document.getElementById('results');
-    const loading = document.getElementById('loading');
-    const searchContainer = document.getElementById('searchContainer');
+    const noResults = document.getElementById('noResults');
     const data = window.krackData;
-
-    // Simulate loading for 2 seconds, then show the search bar
-    setTimeout(() => {
-      loading.style.display = 'none';
-      searchContainer.style.display = 'flex';
-    }, 2000);
 
     searchButton.addEventListener('click', () => {
       const query = searchBar.value.trim().toLowerCase();
       results.innerHTML = ''; // Clear old results
+      noResults.style.visibility = 'hidden'; // Hide the dots by default
+
       if (query === '') return; // If the query is empty, do nothing
 
       const filtered = data.filter(item => 
-        item.title.toLowerCase().includes(query) && item.title.trim() !== '' && item.content.trim() !== ''
+        item.title.toLowerCase().includes(query) && item.title.trim() !== ''
       );
-      
-      filtered.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'result';
-        div.innerHTML = `<strong>${item.title}</strong><span>${item.content || ''}</span>`;
-        results.appendChild(div);
-      });
 
-      // Show results after search
-      const resultElements = document.querySelectorAll('.result');
-      resultElements.forEach(result => {
-        result.style.display = 'block'; // Reveal results
-      });
+      if (filtered.length === 0) {
+        noResults.style.visibility = 'visible'; // Show the dots if no results
+      } else {
+        filtered.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'result';
+          div.innerHTML = `<strong>${item.title}</strong><span>${item.content || ''}</span>`;
+          results.appendChild(div);
+        });
+
+        // Show results after search
+        const resultElements = document.querySelectorAll('.result');
+        resultElements.forEach(result => {
+          result.style.display = 'block'; // Reveal results
+        });
+      }
     });
   </script>
 </body>
