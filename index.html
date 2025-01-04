@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Android Device Ultimate Search Index</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background: url('android.gif') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    h1 {
+      margin-top: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    #searchContainer {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 80%;
+      max-width: 600px;
+    }
+    #searchBar {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid white;
+      border-right: none;
+      border-radius: 5px 0 0 5px;
+      font-size: 16px;
+      color: white;
+      background: transparent;
+    }
+    #searchBar::placeholder {
+      color: white;
+    }
+    #searchButton {
+      background-color: white;
+      border: 1px solid white;
+      border-left: none;
+      border-radius: 0 5px 5px 0;
+      padding: 10px;
+      cursor: pointer;
+    }
+    #searchButton img {
+      width: 20px;
+      height: 20px;
+      filter: invert(1); /* Make the magnifying glass icon white */
+    }
+    #results {
+      margin: 20px auto;
+      max-width: 80%;
+      background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background for results */
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .result {
+      margin: 5px 0;
+      padding: 10px;
+      border-bottom: 1px solid white;
+      display: none; /* Hide results initially */
+      color: white;
+    }
+    .result strong {
+      display: block;
+    }
+    /* Loading Animation */
+    #loading {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      background-color: white;
+      border-radius: 50%;
+      animation: bounce 1s infinite;
+    }
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Android Device Ultimate Search Index</h1>
+  <div id="loading">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <div id="searchContainer" style="display: none;">
+    <input type="text" id="searchBar" placeholder="Search..." />
+    <button id="searchButton">
+      <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Search" />
+    </button>
+  </div>
+  <div id="results"></div>
+  
+  <script src="data.js"></script>
+  <script>
+    const searchBar = document.getElementById('searchBar');
+    const searchButton = document.getElementById('searchButton');
+    const results = document.getElementById('results');
+    const loading = document.getElementById('loading');
+    const searchContainer = document.getElementById('searchContainer');
+    const data = window.krackData;
+
+    // Simulate loading for 2 seconds, then show the search bar
+    setTimeout(() => {
+      loading.style.display = 'none';
+      searchContainer.style.display = 'flex';
+    }, 2000);
+
+    searchButton.addEventListener('click', () => {
+      const query = searchBar.value.trim().toLowerCase();
+      results.innerHTML = ''; // Clear old results
+      if (query === '') return; // If the query is empty, do nothing
+
+      const filtered = data.filter(item => 
+        item.title.toLowerCase().includes(query) && item.title.trim() !== '' && item.content.trim() !== ''
+      );
+      
+      filtered.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'result';
+        div.innerHTML = `<strong>${item.title}</strong><span>${item.content || ''}</span>`;
+        results.appendChild(div);
+      });
+
+      // Show results after search
+      const resultElements = document.querySelectorAll('.result');
+      resultElements.forEach(result => {
+        result.style.display = 'block'; // Reveal results
+      });
+    });
+  </script>
+</body>
+</html>
