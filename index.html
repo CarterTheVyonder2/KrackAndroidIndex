@@ -154,7 +154,9 @@
       }
 
       const filtered = data.filter(item => 
-        item.title.toLowerCase().includes(query) && item.title.trim() !== ''
+        item.title.toLowerCase().includes(query) && 
+        item.title.trim() !== '' && 
+        item.content.trim() !== '' // Skip empty content
       );
 
       if (filtered.length === 0) {
@@ -166,7 +168,7 @@
         filtered.forEach(item => {
           const div = document.createElement('div');
           div.className = 'result';
-          div.innerHTML = `<strong>${item.title}</strong><span>${item.content || ''}</span>`;
+          div.innerHTML = `<strong>${item.title}</strong><span>${item.content}</span>`;
           results.appendChild(div);
         });
 
