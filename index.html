@@ -5,13 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Android Device Ultimate Search Index</title>
   <style>
+    /* Full-viewport wrapper to fix background cropping */
+    #wrapper {
+      min-height: 100vh; /* Ensures the background spans the entire viewport height */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-image: url('android.gif');
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* Prevents scrolling effect */
+      background-position: center;
+      background-size: cover; /* Ensures consistent background scaling */
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      text-align: center;
-      background: url('android.gif') no-repeat center center fixed;
-      background-size: cover;
       color: white;
     }
     h1 {
@@ -105,17 +115,19 @@
   </style>
 </head>
 <body>
-  <h1>Android Device Ultimate Search Index</h1>
-  <div id="searchContainer">
-    <input type="text" id="searchBar" placeholder="Search..." />
-    <button id="searchButton">🔍</button>
-  </div>
-  <div id="results">
-    <div id="noResultsMessage" style="display: none;">Nothing found!</div>
-    <div id="noResults">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
+  <div id="wrapper">
+    <h1>Android Device Ultimate Search Index</h1>
+    <div id="searchContainer">
+      <input type="text" id="searchBar" placeholder="Search..." />
+      <button id="searchButton">🔍</button>
+    </div>
+    <div id="results">
+      <div id="noResultsMessage" style="display: none;">Nothing found!</div>
+      <div id="noResults">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
     </div>
   </div>
   
