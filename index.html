@@ -4,34 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Android Device Ultimate Search Index</title>
-  <!-- Add the site favicon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="droid.ico">
   <style>
-<<<<<<< Updated upstream
-    /* Full-viewport wrapper to fix background cropping */
-    #wrapper {
-      min-height: 100vh; /* Ensures the background spans the entire viewport height */
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background-image: url('android.gif');
-      background-repeat: no-repeat;
-      background-attachment: fixed; /* Prevents scrolling effect */
-      background-position: center;
-      background-size: cover; /* Ensures consistent background scaling */
-    }
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-=======
     html, body {
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden; /* Prevent scrolling */
+      overflow: hidden; /* Prevent scrolling for the entire page */
     }
     #wrapper {
       position: absolute;
@@ -46,15 +27,15 @@
       background-size: cover;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start; /* Align items to the top */
       align-items: center;
     }
     body {
       font-family: Arial, sans-serif;
->>>>>>> Stashed changes
       color: white;
     }
     h1 {
+      color: white; /* Explicitly set title color to white */
       margin-top: 20px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     }
@@ -91,18 +72,19 @@
     #results {
       margin: 20px auto;
       max-width: 80%;
+      width: 80%;
+      height: auto; /* Allow height to adjust dynamically */
       background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background for results */
       padding: 20px;
       border-radius: 10px;
       color: white;
       text-align: center;
-      min-height: 50px; /* Ensure results box is always visible */
+      overflow-y: auto; /* Enable scrolling if results overflow */
     }
     .result {
       margin: 5px 0;
       padding: 10px;
       border-bottom: 1px solid white;
-      display: none; /* Hide results initially */
       color: white;
     }
     .result strong {
@@ -196,12 +178,8 @@
       }
 
       const filtered = data.filter(item => 
-<<<<<<< Updated upstream
-        item.title.toLowerCase().includes(query) && 
-=======
         (item.title.toLowerCase().includes(query) || 
          item.content.toLowerCase().includes(query)) && // Check both title and content
->>>>>>> Stashed changes
         item.title.trim() !== '' && 
         item.content.trim() !== '' // Skip empty content
       );
